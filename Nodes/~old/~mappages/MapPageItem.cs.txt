@@ -1,0 +1,33 @@
+﻿using Ans.Net6.Common;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Ans.Net6.Web.Nodes
+{
+
+    public class MapPageItem
+        : ITreeItem
+    {
+        public int Id { get; set; }
+        public int? MasterPtr { get; set; }
+        public string Name { get; set; }
+        public string Title { get; set; }
+
+        public string TitleShort
+        {
+            get => _titleShort ?? Title;
+            set => _titleShort = value;
+        }
+        private string _titleShort;
+
+        public List<MapPageItem> Masters { get; set; }
+        public List<MapPageItem> Slaves { get; set; }
+
+        public bool AllowMasters => Masters != null && Masters.Any();
+        public bool AllowSlaves => Slaves != null && Slaves.Any();
+
+        public int CountMasters => AllowMasters ? Masters.Count : 0;
+        public int CountSlaves => AllowSlaves ? Slaves.Count : 0;
+    }
+
+}

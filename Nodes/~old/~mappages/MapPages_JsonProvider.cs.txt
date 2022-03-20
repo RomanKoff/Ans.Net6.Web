@@ -1,0 +1,23 @@
+﻿using System.Diagnostics;
+
+namespace Ans.Net6.Web.Nodes
+{
+
+    public class MapPages_JsonProvider
+        : __MapPagesProvider_Proto,
+        IMapPagesProvider
+    {
+
+        public MapPages_JsonProvider()
+        {
+            Debug.WriteLine("--- new MapPages_JsonProvider()");
+            Refresh();
+        }
+
+        public override void Refresh()
+        {
+        }
+
+    }
+
+}

@@ -1,0 +1,63 @@
+﻿using System;
+using System.Text;
+using System.Web.Mvc;
+
+namespace Ans6.Mvc
+{
+
+	public class ContextWrapper
+		: IDisposable
+	{
+
+		public ViewContext Context { get; set; }
+		public StringBuilder CloseContent { get; set; }
+
+
+		public ContextWrapper(
+			ViewContext context,
+			StringBuilder openContent,
+			StringBuilder closeContent)
+		{
+			this.Context = context;
+			this.Context.Writer.Write(openContent.ToString());
+			this.CloseContent = closeContent;
+		}
+
+
+		public ContextWrapper(
+			ViewContext context,
+			string openContent,
+			string closeContent)
+			: this(context,
+				  new StringBuilder(openContent),
+				  new StringBuilder(closeContent))
+		{
+		}
+
+
+		public virtual void DisposeProcess()
+		{
+			this.Context.Writer.Write(
+				this.CloseContent.ToString());
+		}
+
+
+		protected virtual void Dispose(
+			bool disposing)
+		{
+			if (!this._disposed && disposing)
+				DisposeProcess();
+			this._disposed = true;
+		}
+		private bool _disposed = false;
+
+
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+	}
+
+}

@@ -1,0 +1,40 @@
+﻿namespace Ans.Net6.Web.Nodes
+{
+
+	public interface INodeContext
+		: I_Context_Base
+	{
+		//NavigatorBranch Navigator { get; set; }
+		string NavigatorCssClass { get; set; }		
+		
+		bool HideNavigator { get; set; }
+		//bool AllowNavigator { get; }
+		
+	}
+
+
+
+	public class NodeContext
+		: _Context_Base,
+		INodeContext
+	{
+		//public NavigatorBranch Navigator { get; set; }
+				
+		public string NavigatorCssClass
+		{
+			get => _navigatorCssClass ?? "default";
+			set => _navigatorCssClass = value;
+		}
+		private string _navigatorCssClass;
+
+		public bool HideNavigator { get; set; }
+		
+		//public bool AllowNavigator
+		//    => !HideNavigator
+		//        && Navigator != null
+		//        && Navigator.Any();
+
+		
+	}
+
+}

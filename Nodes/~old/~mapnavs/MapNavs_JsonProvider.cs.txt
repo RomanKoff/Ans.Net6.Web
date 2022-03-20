@@ -1,0 +1,33 @@
+﻿using Ans.Net6.Common;
+using Microsoft.AspNetCore.Hosting;
+using System.Diagnostics;
+
+namespace Ans.Net6.Web.Nodes
+{
+
+	public class MapNavs_JsonProvider
+		: __MapNavsProvider_Proto,
+		IMapNavsProvider
+	{
+
+		private readonly IWebHostEnvironment _env;
+
+
+		public MapNavs_JsonProvider(
+			IWebHostEnvironment env)
+		{
+			Debug.WriteLine("--- new MapNavs_JsonProvider()");
+			this._env = env;
+			Refresh();
+		}
+
+
+		public override void Refresh()
+		{
+			this.Parts = SuppJson.GetObjectFromJsonFile<List<MapNavPart>>(
+				Path.Combine(_env.ContentRootPath, "_navs.json"));
+		}
+
+	}
+
+}

@@ -1,0 +1,37 @@
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace Ans6.Mvc
+{
+
+	public class _WebStorageBase
+		: IWebStorage
+	{
+		public string BaseUrl { get; set; }
+		public IEnumerable<IWebFile> Files { get; set; }
+
+		public IWebFile GetFile(
+			string filename)
+		{
+			return Files.FirstOrDefault(x => x.Name.Equals(filename));
+		}
+
+		public bool Test(
+			string filename)
+		{
+			return (GetFile(filename) != null);
+		}
+	}
+
+
+
+	public interface IWebStorage
+	{
+		string BaseUrl { get; set; }
+		IEnumerable<IWebFile> Files { get; set; }
+
+		IWebFile GetFile(string filename);
+		bool Test(string filename);
+	}
+
+}

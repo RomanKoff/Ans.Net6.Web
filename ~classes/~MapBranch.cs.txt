@@ -1,0 +1,85 @@
+﻿using System.Collections.Generic;
+
+namespace Ans.Net6.Web
+{
+
+	/// <summary>
+	/// Ветка карты навигации
+	/// </summary>
+	public class MapBranch
+		: List<MapItem>
+	{
+	}
+
+
+
+	/// <summary>
+	/// Элемент карты навигации
+	/// </summary>
+	public class MapItem
+		: MapBranch
+	{
+
+		/// <summary>
+		/// Название
+		/// </summary>
+		public string Title { get; set; }
+
+		/// <summary>
+		/// Сокращенное название
+		/// </summary>
+		public string TitleShort { get; set; }
+
+		/// <summary>
+		/// Локальный путь к ресурсу
+		/// </summary>
+		public string Path { get; private set; }
+
+		/// <summary>
+		/// Url-ресурса
+		/// </summary>
+		public string Url { get; private set; }
+
+		/// <summary>
+		/// Признак внешнего ресурса
+		/// </summary>
+		public bool IsExternal { get; private set; }
+
+		/// <summary>
+		/// Признак скрытого ресурса
+		/// </summary>
+		public bool IsHidden { get; private set; }
+
+
+		/// <summary>
+		/// Конструктор
+		/// </summary>
+		/// <param name="target">Ресурс</param>
+		/// <param name="title">Название</param>
+		/// <param name="fullTitle">(опц.) Полное название</param>
+		public MapItem(
+			string target,
+			string title,
+			string fullTitle = null,
+			bool isHidden = false)
+		{
+			if (!string.IsNullOrEmpty(target) && target[0] == '^')
+			{
+				this.Path = null;
+				this.Url = target[1..];
+				this.IsExternal = true;
+			}
+			else
+			{
+				this.Path = target;
+				this.Url = null;
+				this.IsExternal = false;
+			}
+			this.Title = fullTitle ?? title;
+			this.TitleShort = title;
+			this.IsHidden = isHidden;
+		}
+
+	}
+
+}

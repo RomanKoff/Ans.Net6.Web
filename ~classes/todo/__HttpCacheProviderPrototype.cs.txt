@@ -1,0 +1,100 @@
+﻿using System;
+using System.Web;
+using System.Web.Caching;
+
+namespace Ans6.Mvc
+{
+
+	/// <summary>
+	/// abstract T __GetObject();
+	/// </summary>
+	public abstract class __HttpCacheProviderPrototype<T>
+	{
+
+		public abstract T __GetObject();
+
+		public DateTime AbsoluteExpiration { get; private set; }
+		public TimeSpan SlidingExpiration { get; private set; }
+		public string KeyPrefix { get; private set; }
+		public string Key { get; private set; }
+
+
+		/// <summary></summary>
+		/// <param name="keyPrefix">Префикс кеша</param>
+		/// <param name="minutes">Время жизни кеша</param>
+		/// <param name="isSliding">Автоматическое продление жизни кеша</param>
+		public __HttpCacheProviderPrototype(
+			string keyPrefix,
+			int minutes,
+			bool isSliding)
+		{
+			this.KeyPrefix = keyPrefix;
+			this.Key = keyPrefix;
+			if (isSliding)
+			{
+				this.AbsoluteExpiration = Cache.NoAbsoluteExpiration;
+				this.SlidingExpiration = TimeSpan.FromMinutes(minutes);
+			}
+			else
+			{
+				this.AbsoluteExpiration = DateTime.Now.AddMinutes(minutes);
+				this.SlidingExpiration = Cache.NoSlidingExpiration;
+			}
+		}
+
+
+		public void SetKeyMod(string mod)
+		{
+			this.Key = (string.IsNullOrEmpty(mod))
+				? KeyPrefix
+				: string.Format("{0}_{1}", KeyPrefix, mod);
+		}
+
+
+		public T Get()
+		{
+			var v1 = HttpRuntime.Cache.Get(Key);
+			if (v1 == null)
+			{
+				var v2 = _cacheInsert();
+				return v2.value;
+			}
+			return ((_wrapper<T>)v1).value;
+		}
+
+
+		public void CacheRemove()
+		{
+			if (HttpRuntime.Cache.Get(Key) != null)
+				HttpRuntime.Cache.Remove(Key);
+		}
+
+
+		public T CacheRefresh()
+		{
+			CacheRemove();
+			var v1 = _cacheInsert();
+			return v1.value;
+		}
+
+
+		// privates
+
+		private _wrapper<T> _cacheInsert()
+		{
+			var v1 = new _wrapper<T> { value = __GetObject() };
+			HttpRuntime.Cache.Insert(
+				Key, v1, null, AbsoluteExpiration, SlidingExpiration);
+			return v1;
+		}
+
+	}
+
+
+
+	internal class _wrapper<T>
+	{
+		public T value;
+	}
+
+}

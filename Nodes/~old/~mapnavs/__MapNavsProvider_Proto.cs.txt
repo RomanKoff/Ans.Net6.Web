@@ -1,0 +1,51 @@
+﻿namespace Ans.Net6.Web.Nodes
+{
+
+	public interface IMapNavsProvider
+	{
+		List<MapNavPart> Parts { get; }
+		bool HasParts { get; }
+		MapNavPart GetPart(string name);
+		MapNavSection GetSection(MapNavPart part, string name);
+		MapNavSection GetSection(string path);
+
+		void Refresh();
+	}
+
+
+
+	public abstract class __MapNavsProvider_Proto
+		: IMapNavsProvider
+	{
+		public abstract void Refresh();
+
+		public List<MapNavPart> Parts { get; set; }
+
+		public bool HasParts
+			=> Parts != null && Parts.Any();
+
+		public virtual MapNavPart GetPart(
+			string name)
+		{
+			return Parts
+				.FirstOrDefault(x => x.Name == name);
+		}
+
+		public virtual MapNavSection GetSection(
+			MapNavPart part,
+			string name)
+		{
+			return part.Sections
+				.FirstOrDefault(x => x.Name == name);
+		}
+
+		public virtual MapNavSection GetSection(
+			string path)
+		{
+			var a1 = path.Split('/');
+			var part = GetPart(a1[0]);
+			return GetSection(part, a1[1]);
+		}
+	}
+
+}

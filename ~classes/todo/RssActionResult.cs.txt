@@ -1,0 +1,25 @@
+﻿using System.ServiceModel.Syndication;
+using System.Web.Mvc;
+using System.Xml;
+
+namespace Ans6.Mvc
+{
+
+	public class RssActionResult
+		: ActionResult
+	{
+		public SyndicationFeed Feed { get; set; }
+
+		public override void ExecuteResult(
+			ControllerContext context)
+		{
+			context.HttpContext.Response.ContentType = "application/rss+xml";
+			var f1 = new Rss20FeedFormatter(Feed);
+			using (var writer = XmlWriter.Create(context.HttpContext.Response.Output))
+			{
+				f1.WriteTo(writer);
+			}
+		}
+	}
+
+}

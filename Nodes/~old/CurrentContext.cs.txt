@@ -1,0 +1,162 @@
+﻿using Ans.Net6.Common;
+using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using System.Diagnostics;
+using System.Text;
+
+namespace Ans.Net6.Web.Nodes
+{
+
+	public interface ICurrentContext
+	{
+		string BaseUrl { get; }
+
+		//void SetSiteMap(MapNodeItem root);
+		//void SetNodeMap(MapBranch map);		
+	}
+
+
+
+	public class CurrentContext
+		: ICurrentContext
+	{
+		
+		public CurrentContext()
+		{	
+			this.BaseUrl = urlHelper.Content("~/");
+		}
+				
+		public string BaseUrl { get; private set; }
+		
+		
+
+
+		
+
+
+		//public void SetSiteMap(
+		//    MapNodeItem root)
+		//{
+		//    if (root == null)
+		//        return;
+		//    var nav1 = new NavigatorBranch();
+		//    _calcSiteMap(root, nav1);
+		//    Site.Navigator = nav1;
+		//}
+
+
+		//public void SetNodeMap(
+		//    MapBranch map)
+		//{
+		//    if (map == null)
+		//        return;
+		//    var nav1 = new NavigatorBranch();
+		//    _calcNodeMap(map, nav1, NodePath, UrlHelper.Content($"~/{QueryPath}"), true);
+		//    Node.Navigator = nav1;
+		//}
+
+
+		
+
+
+		// privates
+
+		//private void _calcSiteMap(
+		//    MapNodeItem root,
+		//    NavigatorBranch navigator)
+		//{
+		//    if (root.AllowSlaves)
+		//    {
+		//        foreach (var node1 in root.Slaves.Where(x => x.Mode != NodeModeEnum.Hidden))
+		//        {
+		//            var nav1 = new NavigatorItem(
+		//                new MapItem(UrlHelper.Content($"~/{node1.Name}"), node1.TitleShort, node1.Title),
+		//                BaseUrl);
+		//            nav1.Actualize(NodePath);
+		//            if (nav1.IsActive)
+		//            {
+		//                navigator.IsSubActive = true;
+		//                //if (setPageProps)
+		//                //{
+		//                //    if (string.IsNullOrEmpty(Page.Title))
+		//                //    {
+		//                //        Page.Title = nav1.Title;
+		//                //        Page.TitleShort = nav1.TitleShort;
+		//                //        Page.InsertToBreadcrumb(new LinkItem
+		//                //        {
+		//                //            Href = "/",
+		//                //            InnerHtml = Page.TitleShort
+		//                //        });
+		//                //    }
+		//                //    if (string.IsNullOrEmpty(Page.TitlePre))
+		//                //    {
+		//                //        //Page.TitlePre = "TEST";
+		//                //        //Page.InsertToBreadcrumb(new LinkItem
+		//                //        //{
+		//                //        //    Href = "/",
+		//                //        //    InnerHtml = "TEST BIG",
+		//                //        //    IsDisabled = true
+		//                //        //});
+		//                //    }
+		//                //}
+		//            }
+		//            _calcSiteMap(node1, nav1);
+		//            navigator.Add(nav1);
+		//        }
+		//    }
+		//}
+
+		//private void _calcNodeMap(
+		//    MapBranch map,
+		//    NavigatorBranch navigator,
+		//    string pathPrefix,
+		//    string currentPath,
+		//    bool setPageProps)
+		//{
+		//    if (map.Any())
+		//    {
+		//        foreach (var map1 in map)
+		//        {
+		//            var nav1 = new NavigatorItem(map1, pathPrefix);
+		//            nav1.Actualize(currentPath);
+		//            if (nav1.IsActive)
+		//            {
+		//                navigator.IsSubActive = true;
+		//                if (setPageProps)
+		//                {
+		//                    if (string.IsNullOrEmpty(Page.Title))
+		//                    {
+		//                        Page.Title = nav1.Title;
+		//                        Page.TitleShort = nav1.TitleShort;
+		//                        Page.InsertToBreadcrumb(new LinkItem
+		//                        {
+		//                            Href = "/",
+		//                            InnerHtml = Page.TitleShort
+		//                        });
+		//                    }
+		//                    if (string.IsNullOrEmpty(Page.TitlePre))
+		//                    {
+		//                        //Page.TitlePre = "TEST";
+		//                        //Page.InsertToBreadcrumb(new LinkItem
+		//                        //{
+		//                        //    Href = "/",
+		//                        //    InnerHtml = "TEST BIG",
+		//                        //    IsDisabled = true
+		//                        //});
+		//                    }
+		//                }
+		//            }
+		//            _calcNodeMap(
+		//                map1, nav1, $"{pathPrefix}{map1.Path}",
+		//                currentPath, setPageProps);
+		//            navigator.Add(nav1);
+		//        }
+		//    }
+		//}
+
+	}
+
+}

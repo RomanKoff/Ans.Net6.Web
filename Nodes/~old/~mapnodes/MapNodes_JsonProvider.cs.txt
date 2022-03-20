@@ -1,0 +1,34 @@
+﻿using Ans.Net6.Common;
+using Microsoft.AspNetCore.Hosting;
+using System.Diagnostics;
+
+namespace Ans.Net6.Web.Nodes
+{
+
+    public class MapNodes_JsonProvider
+        : __MapNodesProvider_Proto,
+        IMapNodesProvider
+    {
+
+        private readonly IWebHostEnvironment _env;
+
+
+        public MapNodes_JsonProvider(
+            IWebHostEnvironment env)
+        {
+            Debug.WriteLine("--- new MapNodes_JsonProvider()");
+            this._env = env;
+            Refresh();
+        }
+
+
+        public override void Refresh()
+        {
+            var root = SuppJson.GetObjectFromJsonFile<MapNodeItem>(
+                Path.Combine(_env.ContentRootPath, "_nodes.json"));
+            SetTree(root, true);
+        }
+
+    }
+
+}

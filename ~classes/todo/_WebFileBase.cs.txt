@@ -1,0 +1,23 @@
+﻿using System;
+
+namespace Ans6.Mvc
+{
+
+	public class _WebFileBase
+		: IWebFile
+	{
+		public DateTime LastWriteTime { get; set; }
+		public long Length { get; set; }
+		public string Name { get; set; }
+	}
+
+
+
+	public interface IWebFile
+	{
+		DateTime LastWriteTime { get; set; }
+		long Length { get; set; }
+		string Name { get; set; }
+	}
+
+}

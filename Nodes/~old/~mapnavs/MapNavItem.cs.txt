@@ -1,0 +1,46 @@
+﻿namespace Ans.Net6.Web.Nodes
+{
+
+	public class MapNavPart
+		: MapNavItem
+	{
+		public List<MapNavSection> Sections { get; set; }
+
+		public bool HasSections
+			=> Sections != null && Sections.Any();
+	}
+
+
+	public class MapNavSection
+		: MapNavItem
+	{
+		public List<MapNavCatalog> Catalogs { get; set; }
+
+		public bool HasCatalogs
+			=> Catalogs != null && Catalogs.Any();
+	}
+
+
+	public class MapNavCatalog
+		: MapNavItem
+	{
+		public List<MapNavItem> Items { get; set; }
+
+		public bool HasItems
+			=> Items != null && Items.Any();
+	}
+
+
+	public class MapNavItem
+	{
+		public string Name { get; set; }
+		public string Title { get; set; }
+		public string Link { get; set; }
+
+		public string GetUrl(string baseUrl)
+		{
+			return Link ?? $"{baseUrl}{Name}";
+		}
+	}
+
+}

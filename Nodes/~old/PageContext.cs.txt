@@ -1,0 +1,35 @@
+﻿namespace Ans.Net6.Web.Nodes
+{
+
+    public interface IPageContext
+        : I_Context_Base
+    {
+        string TitlePre { get; set; }
+        string TitlePost { get; set; }
+        
+        string TitleCssClass { get; set; }
+        bool HideTitle { get; set; }
+        bool AllowTitle { get; }
+
+       
+    }
+
+
+
+    public class PageContext
+        : _Context_Base,
+        IPageContext
+    {
+        public string TitlePre { get; set; }
+        public string TitlePost { get; set; }
+        
+        public string TitleCssClass { get; set; }
+        public bool HideTitle { get; set; }
+
+        public bool AllowTitle
+            => !HideTitle;
+
+        
+    }
+
+}

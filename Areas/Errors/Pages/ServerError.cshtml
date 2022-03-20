@@ -1,0 +1,35 @@
+﻿@page
+@model Ans.Net6.Web.Areas.Errors.Pages.ServerErrorModel
+@{
+	ViewData["Title"] = "Серверная ошибка";
+	ViewData["TitleAddon"] = "При обработке вашего запроса произошла ошибка.";
+}
+
+@if (Model.ViewModel.HasOriginalPath)
+{
+	<p>
+		Адрес запрашиваемого ресурса:<br />
+		<code>@Model.ViewModel.OriginalPath</code>
+	</p>
+}
+
+@if (Model.ViewModel.HasRequestId)
+{
+	<p>
+		Идентификатор ошибки:<br />
+		<code>@Model.ViewModel.RequestId</code>
+	</p>
+}
+
+@if (Model.ViewModel.IsDebug && Model.ViewModel.HasExceptionMessage)
+{
+	<p>
+		Текст сообщения об ошибке:<br />
+		<code>@Model.ViewModel.ExceptionMessage</code>
+	</p>
+}
+
+@if (Model.ViewModel.HasRefererUri)
+{
+	<p><a class="btn btn-primary" href="@Model.ViewModel.RefererUri">Вернуться назад</a></p>
+}

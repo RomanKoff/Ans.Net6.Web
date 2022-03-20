@@ -1,0 +1,76 @@
+﻿using Newtonsoft.Json;
+using System;
+using System.Net;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Ans6.Mvc
+{
+
+	public class _WebApiManagerBase<T>
+	{
+
+		public string BaseAddress { get; private set; }
+		public QSParamsBuilder Params { get; private set; }
+
+
+		public _WebApiManagerBase(
+			string baseAddress)
+		{
+			this.BaseAddress = baseAddress;
+			this.Params = new QSParamsBuilder();
+		}
+
+
+		public string Send(
+			string request)
+		{
+			string response = null;
+			try
+			{
+				using (var client = new WebClient())
+				{
+					client.BaseAddress = BaseAddress;
+					client.Encoding = Encoding.UTF8;
+					response = client.DownloadString(request);
+				}
+			}
+			catch (WebException ex)
+			{
+				if (ex.Status == WebExceptionStatus.ProtocolError && ex.Response != null)
+				{
+					var r1 = (HttpWebResponse)ex.Response;
+					if (r1.StatusCode == HttpStatusCode.NotFound)
+						return response;
+				}
+				throw;
+			}
+			return response;
+		}
+
+
+		public T Send()
+		{
+			string json = Send(Params.ToString());
+			if (string.IsNullOrEmpty(json) || json == "null")
+				return default;
+			return JsonConvert.DeserializeObject<T>(json);
+		}
+
+
+		public async Task<HttpResponseMessage> SendAsync(
+			string request)
+		{
+			HttpResponseMessage response;
+			using (var client = new HttpClient())
+			{
+				client.BaseAddress = new Uri(BaseAddress);
+				response = await client.GetAsync(request);
+			}
+			return response;
+		}
+
+	}
+
+}

@@ -1,0 +1,25 @@
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+
+namespace Ans.Net6.Web
+{
+
+	public class LinkHelper
+	{
+		public string Id { get; set; }
+		public string CssClass { get; set; }
+		public string Href { get; set; }
+		public string InnerHtml { get; set; }
+		public bool IsExternal { get; set; }
+		public bool IsActive { get; set; }
+		public bool IsDisabled { get; set; }
+
+		public void Actualize(
+			string url)
+		{
+			string s1 = (url ?? "").EndsWith("/start")
+				? url[..(url.Length - 5)] : url;
+			this.IsActive = Href.Equals(s1); //, StringComparison.InvariantCultureIgnoreCase);
+		}
+	}
+
+}

@@ -1,0 +1,77 @@
+﻿using Ans.Net6.Common;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Ans.Net6.Web.Nodes
+{
+
+    public interface IMapPagesProvider
+        : ITreeProvider<MapPageItem>
+    {
+    }
+
+
+
+    public abstract class __MapPagesProvider_Proto
+        : __TreeProvider_Proto<MapPageItem>,
+        IMapPagesProvider
+    {
+        private int _newId;
+
+        public override MapPageItem GetItem(
+            int key)
+        {
+            return All.FirstOrDefault(
+                x => x.Id == key);
+        }
+
+        public override MapPageItem GetItem(
+            string key)
+        {
+            return All.FirstOrDefault(
+                x => x.Name == key);
+        }
+
+        public override void ItemRelease(
+            MapPageItem item)
+        {
+        }
+
+        public override void SetTree(
+            MapPageItem root,
+            bool genIds)
+        {
+            this.Root = root;
+            this.All = new List<MapPageItem>();
+            _newId = (genIds) ? 1 : 0;
+            _scanTree(root);
+        }
+
+        public override void SetList(
+            ICollection<MapPageItem> items)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        // privates
+
+        private void _scanTree(
+            MapPageItem master)
+        {
+            if (_newId > 0)
+                master.Id = _newId++;
+            this.All.Add(master);
+            if (master.Slaves != null)
+                foreach (var slave1 in master.Slaves)
+                {
+                    slave1.MasterPtr = master.Id;
+                    slave1.Masters = new List<MapPageItem> { master };
+                    if (master.Masters != null && master.Masters.Any())
+                        slave1.Masters.AddRange(master.Masters);
+                    _scanTree(slave1);
+                    ItemRelease(slave1);
+                }
+        }
+    }
+
+}

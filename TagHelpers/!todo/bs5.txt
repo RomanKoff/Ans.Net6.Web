@@ -1,0 +1,298 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Razor.TagHelpers;
+
+/// <summary>
+/// bs5-dropdown-divider
+/// bs5-dropdown-item
+/// bs5-nav-dropdown
+/// bs5-nav-item
+/// bs5-navbar-nav
+/// bs5-navbar-collapse
+/// bs5-navbar-brand
+/// bs5-navbar
+/// </summary>
+namespace Ans.Net6.Web.TagHelpers
+{
+
+	public class Bs5NavbarTagHelper
+		: TagHelper
+	{
+		public string Id { get; set; }
+		public string Container { get; set; }
+
+		public override void Process(
+			TagHelperContext context,
+			TagHelperOutput output)
+		{
+			output.TagMode = TagMode.StartTagAndEndTag;
+			output.TagName = "nav";
+			output.Attributes.Add("class", "navbar navbar-expand-lg navbar-dark bg-dark");
+			if (!string.IsNullOrEmpty(Id))
+				output.Attributes.Add("id", Id);
+			var container1 = new TagBuilder("div");
+			container1.AddCssClass(Container ?? "container");
+			container1.InnerHtml.AppendHtml(
+				output.GetChildContentAsync().Result.GetContent());
+			output.Content.AppendHtml(container1);
+		}
+	}
+
+
+
+	public class Bs5NavbarBrandTagHelper
+		: TagHelper
+	{
+		public string Href { get; set; }
+
+		public override void Process(
+			TagHelperContext context,
+			TagHelperOutput output)
+		{
+			output.TagMode = TagMode.StartTagAndEndTag;
+			output.TagName = "a";
+			output.Attributes.Add("class", "navbar-brand");
+			output.Attributes.Add("href", Href ?? "/");
+		}
+	}
+
+
+
+	public class Bs5NavbarCollapseTagHelper
+		: TagHelper
+	{
+		public string Id { get; set; }
+		public string Toggler { get; set; }
+		public string TogglerLabel { get; set; }
+
+		public override void Process(
+			TagHelperContext context,
+			TagHelperOutput output)
+		{
+			var id = Id ?? $"navbar_collapse_{context.UniqueId}";
+			output.TagMode = TagMode.StartTagAndEndTag;
+			output.TagName = "div";
+			output.Attributes.Add("class", "collapse navbar-collapse");
+			output.Attributes.Add("id", id);
+			var toggler1 = new TagBuilder("button");
+			toggler1.AddCssClass("navbar-toggler");
+			toggler1.Attributes.Add("type", "button");
+			toggler1.Attributes.Add("data-bs-toggle", "collapse");
+			toggler1.Attributes.Add("data-bs-target", $"#{id}");
+			toggler1.Attributes.Add("aria-controls", id);
+			toggler1.Attributes.Add("aria-expanded", "false");
+			toggler1.Attributes.Add("aria-label", TogglerLabel ?? "Toggle navigation");
+			toggler1.InnerHtml.AppendHtml(Toggler ?? "<span class=\"navbar-toggler-icon\"></span>");
+			output.PreElement.AppendHtml(toggler1);
+		}
+	}
+
+
+
+	public class Bs5NavbarNavTagHelper
+		: TagHelper
+	{
+		public override void Process(
+			TagHelperContext context,
+			TagHelperOutput output)
+		{
+			output.TagMode = TagMode.StartTagAndEndTag;
+			output.TagName = "ul";
+			output.Attributes.Add("class", "navbar-nav me-auto mb-2 mb-lg-0");
+		}
+	}
+
+
+
+	public class Bs5NavItemTagHelper
+		: TagHelper
+	{
+		private readonly IUrlHelper _url;
+
+		public bool Active { get; set; }
+		public bool Disabled { get; set; }
+		public bool External { get; set; }
+		public string ClassAdd { get; set; }
+		public string Href { get; set; }
+		public NavItem NavItem { get; set; }
+
+		public Bs5NavItemTagHelper(
+			IUrlHelper urlHelper)
+		{
+			this._url = urlHelper;
+		}
+
+		public override void Process(
+			TagHelperContext context,
+			TagHelperOutput output)
+		{
+			string childContent;
+			if (NavItem == null)
+			{
+				childContent = output.GetChildContentAsync().Result.GetContent();
+			}
+			else
+			{
+				Active = NavItem.IsActive;
+				External = NavItem.IsExternal;
+				ClassAdd = NavItem.CssClass;
+				Href = _url.ContentExt(NavItem.Url, NavItem.IsExternal);
+				childContent = $"{NavItem.TitleShort}";
+			}
+			output.TagMode = TagMode.StartTagAndEndTag;
+			output.TagName = "li";
+			output.Attributes.Add("class", "nav-item");
+			var link1 = new TagBuilder("a");
+			if (!string.IsNullOrEmpty(ClassAdd))
+				link1.AddCssClass(ClassAdd);
+			if (Active)
+			{
+				link1.AddCssClass("active");
+				link1.Attributes.Add("aria-current", "page");
+			}
+			if (External)
+			{
+				link1.AddCssClass("external");
+				link1.Attributes.Add("target", "_blank");
+			}
+			if (Disabled)
+			{
+				link1.AddCssClass("disabled");
+				link1.Attributes.Add("tabindex", "-1");
+				link1.Attributes.Add("aria-disabled", "true");
+			}
+			link1.AddCssClass("nav-link");
+			link1.Attributes.Add("href", (Disabled) ? "#" : Href);
+			link1.InnerHtml.AppendHtml(childContent);
+			output.Content.AppendHtml(link1);
+		}
+	}
+
+
+
+	public class Bs5NavDropdownTagHelper
+		: TagHelper
+	{
+		public string Id { get; set; }
+		public string Title { get; set; }
+		public bool Active { get; set; }
+		public string ClassAdd { get; set; }
+		public NavItem NavItem { get; set; }
+
+		public override void Process(
+			TagHelperContext context,
+			TagHelperOutput output)
+		{
+			if (NavItem != null)
+			{
+				Active = NavItem.IsActive;
+				ClassAdd = NavItem.CssClass;
+				Title = $"{NavItem.TitleShort}";
+			}
+			var id = Id ?? $"nav_dropdown_{context.UniqueId}";
+			output.TagMode = TagMode.StartTagAndEndTag;
+			output.TagName = "li";
+			output.Attributes.Add("class", "nav-item dropdown");
+			var link1 = new TagBuilder("a");
+			if (!string.IsNullOrEmpty(ClassAdd))
+				link1.AddCssClass(ClassAdd);
+			if (Active)
+				link1.AddCssClass("active");
+			link1.AddCssClass("nav-link dropdown-toggle");
+			link1.Attributes.Add("href", "/");
+			link1.Attributes.Add("id", id);
+			link1.Attributes.Add("role", "button");
+			link1.Attributes.Add("data-bs-toggle", "dropdown");
+			link1.Attributes.Add("aria-expanded", "false");
+			link1.InnerHtml.AppendHtml(Title);
+			output.Content.AppendHtml(link1);
+			var dropdown1 = new TagBuilder("ul");
+			dropdown1.AddCssClass("dropdown-menu");
+			dropdown1.Attributes.Add("aria-labelledby", id);
+			dropdown1.InnerHtml.AppendHtml(
+				output.GetChildContentAsync().Result.GetContent());
+			output.Content.AppendHtml(dropdown1);
+		}
+	}
+
+
+
+	public class Bs5DropdownItemTagHelper
+		: TagHelper
+	{
+		private readonly IUrlHelper _url;
+
+		public bool Active { get; set; }
+		public bool Disabled { get; set; }
+		public bool External { get; set; }
+		public string ClassAdd { get; set; }
+		public string Href { get; set; }
+		public NavItem NavItem { get; set; }
+
+		public Bs5DropdownItemTagHelper(
+			IUrlHelper urlHelper)
+		{
+			this._url = urlHelper;
+		}
+
+		public override void Process(
+			TagHelperContext context,
+			TagHelperOutput output)
+		{
+			string childContent;
+			if (NavItem == null)
+			{
+				childContent = output.GetChildContentAsync().Result.GetContent();
+			}
+			else
+			{
+				Active = NavItem.IsActive;
+				External = NavItem.IsExternal;
+				ClassAdd = NavItem.CssClass;
+				Href = _url.ContentExt(NavItem.Url, NavItem.IsExternal);
+				childContent = $"{NavItem.TitleShort}";
+			}
+			output.TagMode = TagMode.StartTagAndEndTag;
+			output.TagName = "li";
+			var link1 = new TagBuilder("a");
+			if (!string.IsNullOrEmpty(ClassAdd))
+				link1.AddCssClass(ClassAdd);
+			if (Active)
+			{
+				link1.AddCssClass("active");
+				link1.Attributes.Add("aria-current", "page");
+			}
+			if (External)
+			{
+				link1.AddCssClass("external");
+				link1.Attributes.Add("target", "_blank");
+			}
+			if (Disabled)
+			{
+				link1.AddCssClass("disabled");
+				link1.Attributes.Add("tabindex", "-1");
+				link1.Attributes.Add("aria-disabled", "true");
+			}
+			link1.AddCssClass("dropdown-item");
+			link1.Attributes.Add("href", Href);
+			link1.InnerHtml.AppendHtml(childContent);
+			output.Content.AppendHtml(link1);
+		}
+	}
+
+
+
+	public class Bs5DropdownDividerTagHelper
+		: TagHelper
+	{
+		public override void Process(
+			TagHelperContext context,
+			TagHelperOutput output)
+		{
+			output.TagMode = TagMode.StartTagAndEndTag;
+			output.TagName = "li";
+			output.Content.AppendHtml("<hr class=\"dropdown-divider\"/>");
+		}
+	}
+
+}

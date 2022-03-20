@@ -1,0 +1,93 @@
+﻿using Ans.Net6.Web.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
+using Microsoft.Extensions.Logging;
+using System.Linq;
+
+namespace Ans.Net6.Web.Nodes
+{
+
+	public class _NodesController_Base
+		: Controller
+	{
+
+		public ILogger<_NodesController_Base> Logger { get; private set; }
+		public IViewRenderService ViewRender { get; private set; }
+		public IMapNodesProvider MapNodes { get; private set; }
+		public ICurrentContext CurrentContext { get; private set; }
+
+
+		public _NodesController_Base(
+			ILogger<_NodesController_Base> logger,
+			IViewRenderService viewRender,
+			IMapNodesProvider mapNodes,
+			ICurrentContext currentContext)
+		{
+			Logger = logger;
+			ViewRender = viewRender;
+			MapNodes = mapNodes;
+			CurrentContext = currentContext;
+		}
+
+
+		public IActionResult Index(
+			string path)
+		{
+			CurrentContext.SetQueryPath(path);
+			ViewEngineResult viewResult = ViewRender
+				.GetViewEngineResult($"Nodes/{CurrentContext.QueryPath}");
+			if (viewResult.View != null)
+			{
+				CurrentContext.SetViewPath(CurrentContext.QueryPath);
+			}
+			else
+			{
+				string path2 = $"{CurrentContext.QueryPath}/start";
+				viewResult = ViewRender.GetViewEngineResult($"Nodes/{path2}");
+				if (viewResult.View == null)
+				{
+					return NotFound();
+				}
+				CurrentContext.SetViewPath(path2);
+			}
+			CurrentNodeRelease();
+			return View($"~/Views/Nodes/{CurrentContext.ViewPath}.cshtml");
+		}
+
+
+		public virtual void CurrentNodeRelease()
+		{
+			if (MapNodes != null)
+			{
+				var node1 = MapNodes.GetItem(CurrentContext.NodeName);
+				if (node1 != null)
+				{
+					CurrentContext.Node.Name = node1.Name;
+					CurrentContext.Node.Title = node1.Title;
+					CurrentContext.Node.TitleShort = node1.TitleShort;
+					// breadcrumb
+					if (!string.IsNullOrEmpty(CurrentContext.Node.TitleShort))
+					{
+						//CurrentContext.Node.InsertToBreadcrumb(new LinkItem
+						//{
+						//	Href = CurrentContext.UrlHelper.Content($"~/{CurrentContext.Node.Name}"),
+						//	InnerHtml = CurrentContext.Node.TitleShort
+						//});
+					}
+					if (node1.Masters != null)
+						foreach (var node2 in node1.Masters
+							.Where(x => !string.IsNullOrEmpty(x.TitleShort)))
+						{
+							//CurrentContext.Node.InsertToBreadcrumb(new LinkItem
+							//{
+							//	Href = CurrentContext.UrlHelper.Content($"~/{node2.Name}"),
+							//	InnerHtml = node2.TitleShort
+							//});
+						}
+				}
+			}
+		}
+
+	}
+
+}

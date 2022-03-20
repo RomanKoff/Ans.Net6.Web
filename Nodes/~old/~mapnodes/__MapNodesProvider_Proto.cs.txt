@@ -1,0 +1,77 @@
+﻿using Ans.Net6.Common;
+
+namespace Ans.Net6.Web.Nodes
+{
+
+    public interface IMapNodesProvider
+        : ITreeProvider<MapNodeItem>
+    {
+    }
+
+
+
+    public abstract class __MapNodesProvider_Proto
+         : __TreeProvider_Proto<MapNodeItem>,
+        IMapNodesProvider
+    {
+        private int _newId;
+
+        public override MapNodeItem GetItem(
+            int key)
+        {
+            return All.FirstOrDefault(
+                x => x.Id == key);
+        }
+
+        public override MapNodeItem GetItem(
+            string key)
+        {
+            return All.FirstOrDefault(
+                x => x.Name == key);
+        }
+
+        public override void ItemRelease(
+            MapNodeItem item)
+        {
+        }
+
+        public override void SetTree(
+            MapNodeItem root,
+            bool genIds)
+        {
+            this.Root = root;
+            this.All = new List<MapNodeItem>();
+            _newId = (genIds) ? 1 : 0;
+            _scanTree(root);
+        }
+
+        public override void SetList(
+            ICollection<MapNodeItem> items)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        // privates
+
+        private void _scanTree(
+            MapNodeItem master)
+        {
+            if (_newId > 0)
+                master.Id = _newId++;
+            this.All.Add(master);
+            if (master.Slaves != null)
+                foreach (var slave1 in master.Slaves)
+                {
+                    slave1.MasterPtr = master.Id;
+                    slave1.Masters = new List<MapNodeItem> { master };
+                    if (master.Masters != null && master.Masters.Any())
+                        foreach (var item1 in master.Masters)
+                            slave1.Masters.Add(item1);
+                        //slave1.Masters.AddRange(master.Masters);
+                    _scanTree(slave1);
+                    ItemRelease(slave1);
+                }
+        }
+    }
+
+}

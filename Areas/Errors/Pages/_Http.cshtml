@@ -1,0 +1,30 @@
+﻿@model Ans.Net6.Web.Models.ErrorViewModel
+
+@if (Model.HasOriginalPath)
+{
+	<p>
+		Адрес запрашиваемого ресурса:<br />
+		<code>@Model.OriginalPath</code>
+	</p>
+}
+
+@*@if (Model.HasRequestId)
+{
+	<p>
+		Идентификатор ошибки:<br />
+		<code>@Model.RequestId</code>
+	</p>
+}*@
+
+@if (Model.IsDebug && Model.HasExceptionMessage)
+{
+	<p>
+		Текст сообщения об ошибке:<br />
+		<code>@Model.ExceptionMessage</code>
+	</p>
+}
+
+@if (Model.HasRefererUri)
+{
+	<p><a class="btn btn-primary" href="@Model.RefererUri">Вернуться назад</a></p>
+}

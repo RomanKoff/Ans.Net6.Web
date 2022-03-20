@@ -1,0 +1,108 @@
+﻿using Ans.Net6.Common;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
+
+namespace Ans.Net6.Web
+{
+
+    /// <summary>
+    /// Ветка навигации
+    /// </summary>
+    public class NavigatorBranch
+        : List<NavigatorItem>
+    {
+        public bool IsSubActive { get; set; }
+    }
+
+
+
+    /// <summary>
+    /// Элемент навигации
+    /// </summary>
+    public class NavigatorItem
+        : NavigatorBranch
+    {
+
+        private readonly LinkItem _link;
+        private readonly MapItem _map;
+
+
+        /// <summary>
+        /// ctor
+        /// </summary>
+        /// <param name="map">Элемент карты</param>
+        /// <param name="pathPrefix">Префикс локального пути</param>
+        public NavigatorItem(
+            MapItem map,
+            string pathPrefix)
+        {
+            this._map = map;
+            this._link = new LinkItem
+            {
+                IsExternal = _map.IsExternal,
+                Href = (_map.IsExternal)
+                    ? _map.Url
+                    : $"{pathPrefix}{_map.Path}".DefaultFor("/"),
+                InnerHtml = _map.TitleShort
+            };
+        }
+
+
+        /// <summary>
+        /// Название
+        /// </summary>
+        public string Title => _map.Title;
+
+        /// <summary>
+        /// Сокращенное название
+        /// </summary>
+        public string TitleShort => _map.TitleShort;
+
+        /// <summary>
+        /// Признак активной ссылки
+        /// </summary>
+        public bool IsActive
+        {
+            get => isActive || _link.IsActive;
+            set => isActive = value;
+        }
+        private bool isActive = false;
+
+        /// <summary>
+        /// Адрес ссылки
+        /// </summary>
+        public string Href => _link.Href;
+
+        /// <summary>
+        /// Признак внешней ссылки
+        /// </summary>
+        public bool IsExternal => _link.IsExternal;
+
+        /// <summary>
+        /// Признак скрытого ресурса
+        /// </summary>
+        public bool IsHidden => _map.IsHidden;
+
+
+
+        /// <summary>
+        /// Возвращает экземпляр TagBuilder с установренными параметрами тега ссылки
+        /// </summary>
+        public TagBuilder GetTag()
+        {
+            return _link.GetTag();
+        }
+
+
+        /// <summary>
+        /// Акутализация ссылки согласно Url
+        /// </summary>
+        public void Actualize(
+            string url)
+        {
+            this._link.Actualize(url);
+        }
+
+    }
+
+}

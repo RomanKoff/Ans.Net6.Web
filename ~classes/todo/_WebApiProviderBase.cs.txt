@@ -1,0 +1,33 @@
+﻿namespace Ans6.Mvc
+{
+
+	/// <summary>
+	/// override T __GetObject()
+	/// </summary>
+	public class _WebApiProviderBase<T>
+		: __HttpCacheProviderPrototype<T>
+	{
+
+		public _WebApiManagerBase<T> WebApiManager { get; private set; }
+
+
+		public _WebApiProviderBase(
+			string baseAddress,
+			int minutes,
+			bool isSliding)
+			: base(baseAddress, minutes, isSliding)
+		{
+			this.WebApiManager = new _WebApiManagerBase<T>(baseAddress);
+		}
+
+
+		public override T __GetObject()
+		{
+			SetKeyMod(WebApiManager.Params.ToString());
+			var model = WebApiManager.Send();
+			return model;
+		}
+
+	}
+
+}
