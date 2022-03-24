@@ -1,6 +1,5 @@
 ﻿using Ans.Net6.Common;
 using Microsoft.AspNetCore.Html;
-using System;
 using System.Text;
 
 namespace Ans.Net6.Web
@@ -9,15 +8,11 @@ namespace Ans.Net6.Web
 	public static partial class _e
 	{
 
-		//public static HtmlString ToHtml(
-		//	this object value)
-		//{
-		//	if (value == null)
-		//		return HtmlString.Empty;
-		//	return new HtmlString((string)value);
-		//}
-
-
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="value"></param>
+		/// <returns></returns>
 		public static HtmlString ToHtml(
 			this string value)
 		{
@@ -25,6 +20,11 @@ namespace Ans.Net6.Web
 		}
 
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="value"></param>
+		/// <returns></returns>
 		public static HtmlString ToHtml(
 			this StringBuilder value)
 		{
@@ -34,6 +34,12 @@ namespace Ans.Net6.Web
 		}
 
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="value"></param>
+		/// <param name="template"></param>
+		/// <returns></returns>
 		public static HtmlString Render(
 			this string value,
 			string template)
@@ -43,6 +49,13 @@ namespace Ans.Net6.Web
 		}
 
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="value"></param>
+		/// <param name="template"></param>
+		/// <param name="nullValue"></param>
+		/// <returns></returns>
 		public static HtmlString Render(
 			this string value,
 			string template,
@@ -53,6 +66,14 @@ namespace Ans.Net6.Web
 		}
 
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="value"></param>
+		/// <param name="template"></param>
+		/// <param name="format"></param>
+		/// <param name="nullValue"></param>
+		/// <returns></returns>
 		public static HtmlString Render(
 			this int value,
 			string template,
@@ -64,6 +85,13 @@ namespace Ans.Net6.Web
 		}
 
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="value"></param>
+		/// <param name="template"></param>
+		/// <param name="format"></param>
+		/// <returns></returns>
 		public static HtmlString Render(
 			this int? value,
 			string template,
@@ -74,6 +102,14 @@ namespace Ans.Net6.Web
 		}
 
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="value"></param>
+		/// <param name="template"></param>
+		/// <param name="format"></param>
+		/// <param name="nullValue"></param>
+		/// <returns></returns>
 		public static HtmlString Render(
 			this long value,
 			string template,
@@ -85,6 +121,13 @@ namespace Ans.Net6.Web
 		}
 
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="value"></param>
+		/// <param name="template"></param>
+		/// <param name="format"></param>
+		/// <returns></returns>
 		public static HtmlString Render(
 			this long? value,
 			string template,
@@ -95,6 +138,14 @@ namespace Ans.Net6.Web
 		}
 
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="value"></param>
+		/// <param name="template"></param>
+		/// <param name="format"></param>
+		/// <param name="nullValue"></param>
+		/// <returns></returns>
 		public static HtmlString Render(
 			this double value,
 			string template,
@@ -104,6 +155,7 @@ namespace Ans.Net6.Web
 			return new HtmlString(
 				value.Make(template, format, nullValue));
 		}
+
 
 
 		public static HtmlString Render(

@@ -179,8 +179,8 @@ namespace Ans.Net6.Web.Nodes
 		{
 			if (!string.IsNullOrEmpty(CustomBrowserTitle))
 				return new HtmlString(CustomBrowserTitle);
-			var s1 = SuppString.JoinNotEmpty(
-				"{0}", " – ", Page.TitleShort, Node.TitleShort, Site.Title);
+			var s1 = SuppString.Join(
+				"{0}", null, " – ", Page.TitleShort, Node.TitleShort, Site.Title);
 			return new HtmlString(s1);
 		}
 

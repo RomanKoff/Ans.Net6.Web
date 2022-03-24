@@ -1,5 +1,25 @@
 # Ans.Net6.Web
 
+
+## Supports
+
+```CSharp
+// Render
+HtmlString Join(string templateResult, string templateItem, string itemsSeparator, params string[] data)
+HtmlString Join(string templateResult, string templateItem, string itemsSeparator, string data, string dataSeparator)
+```
+
+
+
+\
+\
+\
+\
+\
+\
+.
+
+
 [PROJECT]
 
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.13" />
