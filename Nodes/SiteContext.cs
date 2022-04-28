@@ -2,44 +2,33 @@
 {
 
 	public interface ISiteContext
-		: I_Context_Base
+		: I_CommonContext
 	{
+		List<SiteMapItem> Navigator { get; set; }
 		string HomeUrl { get; set; }
-		string HeaderCssClass { get; set; }
-		string FooterCssClass { get; set; }
 
-		void InsertToBreadcrumb();
+		bool HideNavigator { get; set; }
+
+		bool AllowNavigator { get; }
 	}
 
 
+
 	public class SiteContext
-		: _Context_Base,
+		: _CommonContext_Base,
 		ISiteContext
 	{
+		public List<SiteMapItem> Navigator { get; set; }
 		public string HomeUrl { get; set; }
 
-		public string HeaderCssClass
-		{
-			get => _headerCssClass ?? "default";
-			set => _headerCssClass = value;
-		}
-		private string _headerCssClass;
+		public bool HideNavigator { get; set; }
 
-		public string FooterCssClass
-		{
-			get => _footerCssClass ?? "default";
-			set => _footerCssClass = value;
-		}
-		private string _footerCssClass;
+		public bool AllowNavigator
+			=> !HideNavigator && Navigator != null && Navigator.Any();
 
-
-		public void InsertToBreadcrumb()
+		public SiteContext()
 		{
-			InsertToBreadcrumb(new NavigationItem
-			{
-				Href = HomeUrl,
-				InnerHtml = TitleShort
-			});
+			System.Diagnostics.Debug.WriteLine("--- new SiteContext()");
 		}
 	}
 

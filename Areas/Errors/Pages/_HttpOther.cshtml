@@ -8,14 +8,6 @@
 	</p>
 }
 
-@*@if (Model.HasRequestId)
-{
-	<p>
-		Идентификатор ошибки:<br />
-		<code>@Model.RequestId</code>
-	</p>
-}*@
-
 @if (Model.IsDebug && Model.HasExceptionMessage)
 {
 	<p>

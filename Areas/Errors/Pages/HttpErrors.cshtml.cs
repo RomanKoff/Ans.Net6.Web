@@ -21,7 +21,7 @@ namespace Ans.Net6.Web.Areas.Errors.Pages
 			Init();
 			ViewModel.HttpCode = code;
 			Logger.LogError(
-				"http-{0} | {1} | {2} | {3} | {4}",
+				"http-{HttpCode} | {OriginalPath} | {RefererUri} | {RequestId} | {ExceptionMessage}",
 				ViewModel.HttpCode,
 				ViewModel.OriginalPath,
 				ViewModel.RefererUri,

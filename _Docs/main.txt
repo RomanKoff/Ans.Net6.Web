@@ -1,0 +1,130 @@
+﻿
+	Current
+		.SiteMapProvider — поставщик карты сайта
+		.Site - контекст сайта
+		.Node - контекст узла
+		.Page - контекст страницы
+		SiteMapRefresh() - обновление карты сайта
+		NodeMapInit() - инициализация карты узла
+	
+	Site
+		Navigation - навигатор сайта (карта сайта)
+	
+	Node
+		SiteMapItem - текущий элемент карты сайта
+		Navigation - навигатор узла (меню страниц узла)
+	
+	Page
+		NodeMapItem - текущий элемент меню страниц узла
+
+
+	SiteMapItem (сериализуемый)
+		.Def - Сериализация
+			"название"
+			"адрес|название"
+			"адрес|название|{ShortTitle}"
+				название = "['#'|'-']{Title}"
+				адрес = "{Name}|'^'{ExternalUrl}"
+					'^' - признак внешней ссылки
+					'#' - признак группы
+					'-' - признак заглушки
+		.Name - Имя узла
+		.Title - Основное название узла
+		.ShortTitle - Короткое название узла (->Title)
+		.ExternalUrl - Ссылка на внешний ресурс (перекрывает Name)
+		.Info - Дополнительная информация
+		.Props - Свойства
+		.Tags - Теги
+		.IsGroup - Это группа узлов (перекрывает IsPlug. Name или ExternalUrl игнорируются)
+		.IsPlug - Это заглушка (Name или ExternalUrl игнорируются)
+		.IsDisabled - Отключено (узел и его подчиненные узлы игнорируются)
+		.Items - Подчиненные узлы
+		>.Masters - Верхние узлы (собираются после компиляции)
+		>.IsExternal - Указана ссылка на внешний ресурс (ссылка открывается в новом окне)
+		>.HasShortTitle - Наличие короткого названия узла
+		>.HasMasters - Наличие верхних узлов
+		>.HasItems - Наличие подчиненныч узлов
+		ParseDef() - Десериализация
+
+
+
+
+		.Masters
+		=.Items
+		=.Name
+		=.Title
+		=.ShortTitle
+		=.ExternalUrl
+		=.Info
+		=.Props
+		=.IsGroup
+		=.IsDisabled
+		=.Def		
+		>.HasShortTitle
+		>.IsExternal
+		>.HasLink
+		>.HasMasters
+		>.HasItems
+
+	NodeMapItem
+		.Masters
+		.Items
+		.Name
+		.Title
+		.ExternalUrl
+		.InternalUrl
+		.IsHidden
+		.IsTargetBlank
+		>IsExternal
+		>IsInternal
+		>HasMasters
+		>HasItems
+
+	NavigationItem
+		?
+		.Items
+		.Id
+		.Class
+		.Href
+		.InnerHtml
+		.IsActive
+		.IsSubActive
+		.IsTargetBlank
+		.IsHidden
+		.IsDisabled
+		>HasItems
+
+
+
+
+
+
+
+	builder.Services.AddSingleton<ISiteMapProvider, SiteMap_XmlProvider>();
+	builder.Services.AddScoped<ICurrentContext, CurrentContext>();
+
+	@inject ICurrentContext Current
+
+	Current
+		.Site
+			.Map : IEnumerable<SiteMapItem> // карта сайта
+			.RefreshMap() // перегружает карту сайта из текущего провайдера		
+		.Node
+			.Map : IEnumerable<NodeMapItem> // карта узла
+			.SetMap(params NodeMapItem[] items) // устанавливает карту узла
+		.Page
+			.Path : IEnumerable<NavigationItem> // путь текущей страницы
+
+		.QueryRelease() // выполнение текущего запроса
+
+
+
+	Карта узлов сайта (глобальный объект)
+	NodeMap[NodeMapItem]
+	- загружается при старте (обновляется принудительно)	
+	- для текущего узла: параметры, дерево потомков, путь предков
+
+	Карта страниц узла (объект текущего контекста)
+	PageMap[PageMapItem]
+	- загружается из лайаута узла
+	- для текущей страницы: параметры, дерево потомков, путь предков

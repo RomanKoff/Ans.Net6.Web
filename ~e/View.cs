@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc.ViewEngines;
 namespace Ans.Net6.Web
 {
 
+	// string GetViewName(this IView view)
+	// string GetViewName(this IRazorPage view)
+
 	public static partial class _e
 	{
 
@@ -22,7 +25,7 @@ namespace Ans.Net6.Web
 			string s1 = view.Path;
 			return Path.GetFileNameWithoutExtension(
 				s1[s1.LastIndexOf('/')..]);
-		}	
+		}
 
 	}
 

@@ -3,6 +3,9 @@
 namespace Ans.Net6.Web
 {
 
+	/// <summary>
+	/// 
+	/// </summary>
 	public class TagAHelper
 	{
 		public string Id { get; set; }

@@ -1,8 +1,7 @@
 ﻿using Ans.Net6.Common;
 using Microsoft.AspNetCore.Hosting;
-using System.Diagnostics;
 
-namespace Ans.Net6.Web.Services
+namespace Ans.Net6.Web.Nodes
 {
 
 	public interface INavProviderService
@@ -11,6 +10,7 @@ namespace Ans.Net6.Web.Services
 
 		Nav GetItemByName(string name);
 		Nav GetItemByPath(string path);
+
 		void Refresh();
 	}
 
@@ -19,17 +19,20 @@ namespace Ans.Net6.Web.Services
 	public class JsonNavProviderService
 		: INavProviderService
 	{
+
 		private readonly IWebHostEnvironment _env;
 
 		public List<Nav> Navigator { get; private set; }
 
+
 		public JsonNavProviderService(
 			IWebHostEnvironment env)
 		{
-			Debug.WriteLine("--- new JsonNavProviderService()");
+			System.Diagnostics.Debug.WriteLine("--- new INavProviderService");
 			this._env = env;
 			Refresh();
 		}
+
 
 		public Nav GetItemByName(
 			string name)
@@ -37,17 +40,21 @@ namespace Ans.Net6.Web.Services
 			return _scanByName(name, Navigator);
 		}
 
+
 		public Nav GetItemByPath(
 			string path)
 		{
 			return _scanByPath(path, Navigator);
 		}
 
+
 		public void Refresh()
 		{
 			this.Navigator = SuppJson.GetObjectFromJsonFile<List<Nav>>(
 				Path.Combine(_env.ContentRootPath, "_navs.json"));
 		}
+
+
 
 		// privates
 
@@ -86,6 +93,7 @@ namespace Ans.Net6.Web.Services
 			}
 			return null;
 		}
+
 	}
 
 }

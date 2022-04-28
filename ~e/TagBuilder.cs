@@ -7,16 +7,15 @@ using System.Text.Encodings.Web;
 namespace Ans.Net6.Web
 {
 
-	/// <summary>
-	/// void AddCssClass(this TagBuilder tag, bool expression, string value)
-	/// void AddCssClasses(this TagBuilder tag, params string[] classes)
-	/// void AddCssClassIfPresent(this TagBuilder tag, string value)
-	/// void AddAttibutes(this TagBuilder tag, NameValueCollection attributes)
-	/// void AddAttibutes(this TagBuilder tag, object attributes)
-	/// void MergeAttribute(this TagBuilder tag, bool expression, string key, string value)
-	/// void MergeAttribute(this TagBuilder tag, bool expression, string key, string value, bool replaceExisting)
-	/// HtmlString ToHtml(this TagBuilder tag)
-	/// </summary>
+	// void AddCssClass(this TagBuilder tag, bool expression, string value)
+	// void AddCssClasses(this TagBuilder tag, params string[] classes)
+	// void AddCssClassIfPresent(this TagBuilder tag, string value)
+	// void AddAttibutes(this TagBuilder tag, NameValueCollection attributes)
+	// void AddAttibutes(this TagBuilder tag, object attributes)
+	// void MergeAttribute(this TagBuilder tag, bool expression, string key, string value)
+	// void MergeAttribute(this TagBuilder tag, bool expression, string key, string value, bool replaceExisting)
+	// HtmlString ToHtml(this TagBuilder tag)
+
 	public static partial class _e
 	{
 
@@ -107,6 +106,9 @@ namespace Ans.Net6.Web
 		{
 			return new HtmlString(tag.GetString());
 		}
+
+
+
 
 
 		//[Obsolete("Use InnerHtml.AppendFormat()")]

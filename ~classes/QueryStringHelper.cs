@@ -6,13 +6,28 @@ using Microsoft.Extensions.Primitives;
 namespace Ans.Net6.Web
 {
 
+	/// <summary>
+	/// 
+	/// </summary>
 	public class QueryStringHelper
 	{
 
+		/// <summary>
+		/// 
+		/// </summary>
 		public Dictionary<string, StringValues> RequestParams { get; private set; }
+
+		/// <summary>
+		/// 
+		/// </summary>
 		public Dictionary<string, StringValues> InputParams { get; private set; }
 
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="query"></param>
+		/// <param name="ignoreParams"></param>
 		public QueryStringHelper(
 			IQueryCollection query,
 			params string[] ignoreParams)
@@ -31,43 +46,14 @@ namespace Ans.Net6.Web
 		}
 
 
-		public bool TestHas(
-			string key)
-		{
-			return RequestParams.ContainsKey(key);
-		}
-
-
-		public bool Test(
-			string key,
-			string value)
-		{
-			if (TestHas(key))
-				return RequestParams[key].ToString().Equals(value);
-			return false;
-		}
-
-
-		public int? GetInt(
-			string key)
-		{
-			if (TestHas(key))
-				return RequestParams[key].ToString().ToInt();
-			return null;
-		}
-
-
-		public int GetInt(
-			string key,
-			int defaultValue)
-		{
-			if (TestHas(key))
-				return RequestParams[key].ToString().ToInt(defaultValue);
-			return defaultValue;
-		}
-
-
-		public string GetQueryString(
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="key"></param>
+		/// <param name="value"></param>
+		/// <param name="nullValue"></param>
+		/// <returns></returns>
+		public static string GetQueryString(
 			string key,
 			int value,
 			int nullValue)
@@ -78,6 +64,69 @@ namespace Ans.Net6.Web
 		}
 
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="key"></param>
+		/// <returns></returns>
+		public bool TestHas(
+			string key)
+		{
+			return RequestParams.ContainsKey(key);
+		}
+
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="key"></param>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		public bool Test(
+			string key,
+			string value)
+		{
+			if (TestHas(key))
+				return RequestParams[key].ToString().Equals(value);
+			return false;
+		}
+
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="key"></param>
+		/// <returns></returns>
+		public int? GetInt(
+			string key)
+		{
+			if (TestHas(key))
+				return RequestParams[key].ToString().ToInt();
+			return null;
+		}
+
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="key"></param>
+		/// <param name="defaultValue"></param>
+		/// <returns></returns>
+		public int GetInt(
+			string key,
+			int defaultValue)
+		{
+			if (TestHas(key))
+				return RequestParams[key].ToString().ToInt(defaultValue);
+			return defaultValue;
+		}
+
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="queryString"></param>
+		/// <returns></returns>
 		public string GetQueryString(
 			string queryString)
 		{
@@ -89,6 +138,10 @@ namespace Ans.Net6.Web
 		}
 
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="key"></param>
 		public void Delete(
 			string key)
 		{

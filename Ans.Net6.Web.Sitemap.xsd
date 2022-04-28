@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Ans_Net6_Web_Sitemap"
+		   attributeFormDefault="unqualified"
+		   elementFormDefault="qualified"
+		   targetNamespace="Ans.Net6.Web.Sitemap.xsd"
+		   xmlns="Ans.Net6.Web.Sitemap.xsd"
+		   xmlns:mstns="Ans.Net6.Web.Sitemap.xsd"
+		   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+
+	<xs:element name="data" type="ct_data"/>
+
+
+	<!-- complex types -->
+
+
+	<xs:complexType name="ct_data">
+		<xs:sequence>
+			<xs:element name="item" type="ct_item" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ct_item">
+		<xs:sequence>
+			<xs:element name="item" type="ct_item" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="def" type="xs:string"/>
+		<xs:attribute name="name" type="xs:string"/>
+		<xs:attribute name="url" type="xs:string"/>
+		<xs:attribute name="title" type="xs:string"/>
+		<xs:attribute name="short" type="xs:string"/>
+		<xs:attribute name="info" type="xs:string"/>
+		<xs:attribute name="props" type="xs:string"/>
+		<xs:attribute name="group" type="xs:boolean"/>
+		<xs:attribute name="disabled" type="xs:boolean"/>
+	</xs:complexType>
+
+
+	<!-- simple types -->
+
+
+	<xs:simpleType name="st_string_name">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="50"/>
+			<xs:pattern value="^([A-Z_][0-9a-zA-Z_]+)$"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>

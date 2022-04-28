@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Razor.TagHelpers;
 
-/// <summary>
-/// ans-field-text
-/// </summary>
+// ans-field-text
+
 namespace Ans.Net6.Web.TagHelpers
 {
 

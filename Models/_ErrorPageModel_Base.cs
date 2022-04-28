@@ -9,7 +9,7 @@ using System.Diagnostics;
 namespace Ans.Net6.Web.Models
 {
 
-    public interface IErrorPageModel
+	public interface IErrorPageModel
     {
         ErrorViewModel ViewModel { get; set; }
         void Init();
@@ -20,7 +20,8 @@ namespace Ans.Net6.Web.Models
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     [IgnoreAntiforgeryToken]
     public class _ErrorPageModel_Base
-        : PageModel, IErrorPageModel
+        : PageModel,
+        IErrorPageModel
     {
         private readonly IConfiguration _configuration;
 

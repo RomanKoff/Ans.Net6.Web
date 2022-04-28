@@ -48,6 +48,6 @@ namespace Ans.Net6.Web
 		{
 			return new MediaTypeHeaderValue(ContentType);
 		}
-	}	
+	}
 
 }

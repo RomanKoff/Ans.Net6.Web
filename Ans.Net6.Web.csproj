@@ -4,9 +4,10 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>disable</Nullable>
+
 		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 
-		<VersionPrefix>1.0.1</VersionPrefix>
+		<VersionPrefix>1.1.0</VersionPrefix>
 		<Authors>Roman Koff</Authors>
 		<Copyright>$(Authors)</Copyright>
 		<RepositoryUrl>https://github.com/RomanKoff/Ans.Net6.Web</RepositoryUrl>
@@ -18,9 +19,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Ans.Net6.Common" Version="1.0.2" />
-		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.3" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.4" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.4" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Ans.Net6.Common\Ans.Net6.Common.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

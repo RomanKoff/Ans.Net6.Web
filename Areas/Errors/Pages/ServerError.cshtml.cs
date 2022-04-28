@@ -19,7 +19,7 @@ namespace Ans.Net6.Web.Areas.Errors.Pages
 		{
 			Init();
 			Logger.LogError(
-				"server500 | {0} | {1} | {2} | {3}",
+				"server500 | {OriginalPath} | {RefererUri} | {RequestId} | {ExceptionMessage}",
 				ViewModel.OriginalPath,
 				ViewModel.RefererUri,
 				ViewModel.RequestId,

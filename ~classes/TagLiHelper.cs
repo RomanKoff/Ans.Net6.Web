@@ -3,6 +3,9 @@
 namespace Ans.Net6.Web
 {
 
+	/// <summary>
+	/// 
+	/// </summary>
 	public class TagLiHelper
 	{
 		public string CssClass { get; set; }

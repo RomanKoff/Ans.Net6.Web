@@ -1,7 +1,185 @@
 # Ans.Net6.Web
 
 
+Карта узлов сайта
+
+```
+[root]/_nodes.json
+@NodeMap
+```
+
+- Mode (enum: 0=Normal;1=Plug;2=Group;3=Hidden)         // 0=Обычный; 1=Заглушка; 2=Группа узлов; 3=Скрытый
+
+
+
+
+**Карта страниц узла сайта**
+
+1. Формирование навигатора по страницам узла
+2. Подсвтека текущей страницы в навигаторе
+2. Формирование пути текущей страницы
+3. Подстановка названия страницы и заголовка документа (окна браузера)
+
+```
+[root]/node/_.json
+@Node.PageMap
+```
+
+PageMapItem:
+- Name
+- Title
+- ShortTitle < Title
+- MenuHtml < Title
+- ExternalUrl
+- IsDisabled (bool)
+- IsHidden (bool)
+
+
+
+
+
+
+1. Получение дерева узлов.
+1. Получение потомков заданного узла.
+1. Получение предков заданного узла.
+1. Если для узла установлен IsDisabled или Mode == hidden, то его потомки не отображаются в полной структуре.
+1. Если для узла установлен IsDisabled, то узел и все его потомки недоступны.
+1. Если для узла установлен Mode == hidden, то его потомки доступны для просмотра при обращении по адресу и у них доступны потомки и предки.
+
+
+
+
+
+
+
+[/Areas/_ViewImports.cshtml]
+	
+@using Ans.SimpleSiteEngine.WebApp
+
+@using Ans.Net6.Common
+@using Ans.Net6.Web
+@using Ans.Net6.Web.Nodes
+@using System.Text
+@using Microsoft.AspNetCore.Html
+@inject ISiteContext Site
+@inject INodeContext Node
+@inject IPageContext Page
+@inject ICurrentContext Current
+@inject IMapNodesProvider MapNodes
+@addTagHelper "*, Microsoft.AspNetCore.Mvc.TagHelpers"
+@addTagHelper "*, Ans.Net6.Web"
+
+
+
+
+
+
+## Classes
+
+- ContactData
+- ContentInfo
+- CssBuilder
+- Nav
+- NavigationItem
+- NavigationTree
+- PersonData
+- QueryStringHelper
+- TagAHelper
+- TagLiHelper
+
+## Extensions
+
+- ~render
+- ~tagHelper
+- Controller
+- TagBuilder
+- UrlHelper
+- View
+
 ## Supports
+
+- Render
+- SuppContentInfo
+
+## Ans.Net6.Web.Areas
+
+- _Http.cshtml
+- _Http403.cshtml
+- _Http404.cshtml
+- HttpErrors.cshtml
+- ServerError.cshtml
+
+## Ans.Net6.Web.Filters
+
+- StringValidationAttribute
+- IntValidationAttribute
+- LongValidationAttribute
+- DoubleValidationAttribute
+- FloatValidationAttribute
+- DecimalValidationAttribute
+- DateTimeValidationAttribute
+
+## Ans.Net6.Web.Middlewares
+
+- RequestTimeMiddleware
+
+## Ans.Net6.Web.Models
+
+- _ErrorPageModel_Base
+- ErrorViewModel
+
+## Ans.Net6.Web.Nodes
+
+- _Context_Base
+- _NodesController_Base
+- CurrentContext
+- NodeContext
+- PageContext
+- SiteContext
+
+## Ans.Net6.Web.Services
+
+- EmailSenderService
+- NavProviderService
+- ViewRenderService
+
+## Ans.Net6.Web.TagHelpers
+
+- ~ans
+- ~ans-debug
+- ~ans-fields
+- ~ans-nav
+- ~ans-samples
+
+## Constants
+
+- _Const~chars
+- _Const~content
+- _Const~http
+
+## Resources
+
+- _ResValidation
+
+## Lib
+
+- LibOptions
+- LibStartup
+
+
+
+
+
+
+
+
+
+
+
+[Nodes](_Help/Nodes.md)
+
+
+
 
 ```CSharp
 // Render
@@ -203,23 +381,6 @@ using System;
 }
 
 
-
-[/Areas/_ViewImports.cshtml]
-	
-@using Ans.SimpleSiteEngine.WebApp
-
-@using Ans.Net6.Common
-@using Ans.Net6.Web
-@using Ans.Net6.Web.Nodes
-@using System.Text
-@using Microsoft.AspNetCore.Html
-@inject ISiteContext Site
-@inject INodeContext Node
-@inject IPageContext Page
-@inject ICurrentContext Current
-@inject IMapNodesProvider MapNodes
-@addTagHelper "*, Microsoft.AspNetCore.Mvc.TagHelpers"
-@addTagHelper "*, Ans.Net6.Web"
 
 
 

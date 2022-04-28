@@ -2,59 +2,42 @@
 {
 
 	public interface INodeContext
-		: I_Context_Base
+		: I_CommonContext
 	{
+		SiteMapItem SiteMapItem { get; set; }
+		List<NavigationItem> Navigator { get; set; }
+
 		string Name { get; set; }
-		string ParentTitle { get; set; }
-		string ParentUrl { get; set; }
-		string HeaderCssClass { get; set; }
-		string FooterCssClass { get; set; }
-		bool HideHeader { get; set; }
-		bool HideFooter { get; set; }
-		bool HideParent { get; set; }
-		bool AllowFooter { get; }
-		bool AllowHeader { get; }
-		bool AllowParent { get; }
+		string ShortTitle { get; set; }
+
+		bool HideNavigator { get; set; }
+
+		bool AllowNavigator { get; }
 	}
 
 
+
 	public class NodeContext
-		: _Context_Base,
+		: _CommonContext_Base,
 		INodeContext
 	{
+		private string _shortTitle;
+
+		public SiteMapItem SiteMapItem { get; set; }
+		public List<NavigationItem> Navigator { get; set; }
+
 		public string Name { get; set; }
+		public string ShortTitle { get => _shortTitle ?? Title; set => _shortTitle = value; }
 
-		public string ParentTitle { get; set; }
+		public bool HideNavigator { get; set; }
 
-		public string ParentUrl { get; set; }
+		public bool AllowNavigator
+			=> !HideNavigator && Navigator != null && Navigator.Any();
 
-		public string HeaderCssClass
+		public NodeContext()
 		{
-			get => _headerCssClass ?? "default";
-			set => _headerCssClass = value;
+			System.Diagnostics.Debug.WriteLine("--- new NodeContext()");
 		}
-		private string _headerCssClass;
-
-		public string FooterCssClass
-		{
-			get => _footerCssClass ?? "default";
-			set => _footerCssClass = value;
-		}
-		private string _footerCssClass;
-
-		public bool HideHeader { get; set; }
-		public bool HideFooter { get; set; }
-		public bool HideParent { get; set; }
-
-		public bool AllowHeader
-			=> !HideHeader;
-
-		public bool AllowFooter
-			=> !HideFooter;
-
-		public bool AllowParent
-			=> !HideParent
-				&& !string.IsNullOrEmpty(ParentTitle);
 	}
 
 }

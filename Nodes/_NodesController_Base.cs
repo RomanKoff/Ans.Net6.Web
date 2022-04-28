@@ -20,6 +20,7 @@ namespace Ans.Net6.Web.Nodes
 			ICurrentContext currentContext,
 			IViewRenderService viewRender)
 		{
+			System.Diagnostics.Debug.WriteLine("--- new _NodesController_Base()");
 			Logger = logger;
 			CurrentContext = currentContext;
 			ViewRender = viewRender;
@@ -29,29 +30,42 @@ namespace Ans.Net6.Web.Nodes
 		public IActionResult Index(
 			string path)
 		{
+			System.Diagnostics.Debug.WriteLine($"--- Index({path})");
 			CurrentContext.SetQueryPath(path);
-			ViewEngineResult viewResult = ViewRender
-				.GetViewEngineResult($"Nodes/{CurrentContext.QueryPath}");
-			if (viewResult.View != null)
+			ViewEngineResult engine1 = ViewRender
+				.GetViewEngineResult($"Nodes/{CurrentContext.FixQueryPath}");
+			if (engine1.View != null)
 			{
-				CurrentContext.SetViewPath(CurrentContext.QueryPath);
+				CurrentContext.SetViewPath(CurrentContext.FixQueryPath);
 			}
 			else
 			{
-				string path2 = $"{CurrentContext.QueryPath}/start";
-				viewResult = ViewRender.GetViewEngineResult($"Nodes/{path2}");
-				if (viewResult.View == null)
+				string path2 = $"{CurrentContext.FixQueryPath}/start";
+				engine1 = ViewRender.GetViewEngineResult($"Nodes/{path2}");
+				if (engine1.View == null)
 				{
 					return NotFound();
 				}
 				CurrentContext.SetViewPath(path2);
 			}
-			CurrentNodeRelease();
+			CurrentContext.QueryRelease();
+			CurrentRelease();
 			return View($"~/Views/Nodes/{CurrentContext.ViewPath}.cshtml");
 		}
 
 
-		public virtual void CurrentNodeRelease()
+		public IActionResult SiteMap_Refresh(
+			string token)
+		{
+			System.Diagnostics.Debug.WriteLine($"--- SiteMap_Reset({token})");
+			if (token != CurrentContext.Options.SiteMapResetToken)
+				return NotFound();
+			CurrentContext.SiteMapRefresh();
+			return Content("SiteMap Refresh - OK");
+		}
+
+
+		public virtual void CurrentRelease()
 		{
 		}
 

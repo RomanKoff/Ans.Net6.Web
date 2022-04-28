@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Razor.TagHelpers;
 
-/// <summary>
-/// ans-sample-ru
-/// ans-sample-ru-small
-/// ans-sample-ru-smaller
-/// </summary>
+// ans-sample-ru
+// ans-sample-ru-small
+// ans-sample-ru-smaller
+
 namespace Ans.Net6.Web.TagHelpers
 {
 

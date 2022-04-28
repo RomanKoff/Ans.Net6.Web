@@ -72,6 +72,10 @@ namespace Ans.Net6.Web
 			this.ShortTitle = shortTitle;
 		}
 
+
+
+
+
 		//public void ParseTarget(
 		//	string target)
 		//{

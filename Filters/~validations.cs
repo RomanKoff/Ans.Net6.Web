@@ -1,17 +1,15 @@
 ﻿using Ans.Net6.Common;
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 
-/// <summary>
-/// StringValidationAttribute
-/// IntValidationAttribute
-/// LongValidationAttribute
-/// DoubleValidationAttribute
-/// FloatValidationAttribute
-/// DecimalValidationAttribute
-/// DateTimeValidationAttribute
-/// </summary>
+// StringValidationAttribute
+// IntValidationAttribute
+// LongValidationAttribute
+// DoubleValidationAttribute
+// FloatValidationAttribute
+// DecimalValidationAttribute
+// DateTimeValidationAttribute
+
 namespace Ans.Net6.Web.Filters
 {
 

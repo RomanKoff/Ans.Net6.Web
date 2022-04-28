@@ -1,7 +1,8 @@
-﻿using System;
-
-namespace Ans.Net6.Web
+﻿namespace Ans.Net6.Web
 {
+
+	// ContentInfo GetContentInfo(string extention)
+	// string GetFileCssClass(string extention, string contentClass)
 
 	public static class SuppContentInfo
 	{

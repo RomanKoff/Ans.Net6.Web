@@ -4,16 +4,16 @@
 	switch (Model.ViewModel.HttpCode)
 	{
 		case 403:
-			ViewData["Title"] = $"Доступ запрещен!";
+			ViewData["PageTitle"] = $"Доступ запрещен!";
 			Html.RenderPartial("_Http403", Model.ViewModel, ViewData);
 			break;
 		case 404:
-			ViewData["Title"] = $"Страница не найдена!";
+			ViewData["PageTitle"] = $"Страница не найдена!";
 			Html.RenderPartial("_Http404", Model.ViewModel, ViewData);
 			break;
 		default:
-			ViewData["Title"] = $"Ошибка {Model.ViewModel.HttpCode}!";
-			Html.RenderPartial("_Http", Model.ViewModel, ViewData);
+			ViewData["PageTitle"] = $"Ошибка {Model.ViewModel.HttpCode}!";
+			Html.RenderPartial("_HttpOther", Model.ViewModel, ViewData);
 			break;
 	}
 }

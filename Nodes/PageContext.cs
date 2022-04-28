@@ -2,36 +2,48 @@
 {
 
 	public interface IPageContext
-		: I_Context_Base
+		: I_CommonContext
 	{
+		NodeMapItem NodeMapItem { get; set; }
+
+		string FullTitle { get; set; }
 		string MetaDescription { get; set; }
 		string MetaKeywords { get; set; }
-		bool OffContainer { get; set; }
 		string BreadcrumbCssClass { get; set; }
+		bool OffContainer { get; set; }
+		bool HideBrowserTitle { get; set; }
+		bool HidePageTitle { get; set; }
 
-		void InsertToBreadcrumb(string title);
-		void InsertToBreadcrumb();
+		bool AllowBrowserTitle { get; }
+		bool AllowPageTitle { get; }
 	}
 
 
+
 	public class PageContext
-		: _Context_Base,
+		: _CommonContext_Base,
 		IPageContext
 	{
+		private string _fullTitle;
+
+		public NodeMapItem NodeMapItem { get; set; }
+		public string FullTitle { get => _fullTitle ?? Title; set => _fullTitle = value; }
 		public string MetaDescription { get; set; }
 		public string MetaKeywords { get; set; }
-		public bool OffContainer { get; set; }
 		public string BreadcrumbCssClass { get; set; }
+		public bool OffContainer { get; set; }
+		public bool HideBrowserTitle { get; set; }
+		public bool HidePageTitle { get; set; }
 
-		public void InsertToBreadcrumb(
-			string title)
-		{
-			InsertToBreadcrumb(new NavigationItem { Href = "#", InnerHtml = title });
-		}
+		public bool AllowBrowserTitle
+			=> !HideBrowserTitle && !string.IsNullOrEmpty(Title);
 
-		public void InsertToBreadcrumb()
+		public bool AllowPageTitle
+			=> !HidePageTitle && !string.IsNullOrEmpty(Title);
+
+		public PageContext()
 		{
-			InsertToBreadcrumb(TitleShort);
+			System.Diagnostics.Debug.WriteLine("--- new PageContext()");
 		}
 	}
 

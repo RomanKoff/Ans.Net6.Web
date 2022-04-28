@@ -104,8 +104,7 @@
 		public override string ToString()
 		{
 			return (Count > 0)
-				? string.Join(" ", this)
-				: string.Empty;
+				? string.Join(" ", this) : string.Empty;
 		}
 
 	}

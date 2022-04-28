@@ -1,4 +1,22 @@
 ﻿@model Ans.Net6.Web.Models.ErrorViewModel
-@{
-	Html.RenderPartial("_Http", Model, ViewData);
+
+@if (Model.HasOriginalPath)
+{
+	<p>
+		Адрес запрашиваемого ресурса:<br />
+		<code>@Model.OriginalPath</code>
+	</p>
+}
+
+@if (Model.IsDebug && Model.HasExceptionMessage)
+{
+	<p>
+		Текст сообщения об ошибке:<br />
+		<code>@Model.ExceptionMessage</code>
+	</p>
+}
+
+@if (Model.HasRefererUri)
+{
+	<p><a class="btn btn-primary" href="@Model.RefererUri">Вернуться назад</a></p>
 }

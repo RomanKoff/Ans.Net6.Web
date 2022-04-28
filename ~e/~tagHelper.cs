@@ -3,9 +3,8 @@
 namespace Ans.Net6.Web
 {
 
-	/// <summary>
-	/// void AppendInfo(this TagHelperContent content, string title, object data)	
-	/// </summary>
+	// void AppendInfo(this TagHelperContent content, string title, object data)	
+
 	public static partial class _e
 	{
 
